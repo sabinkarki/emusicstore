@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +32,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    private Path path;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getIndexPage() {
@@ -72,8 +79,22 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/admin/productInventory/addProduct", method = RequestMethod.POST)
-    public String addProductPost(@ModelAttribute("product") Product product) {
+    public String addProductPost(@ModelAttribute("product") Product product , HttpServletRequest request) {
+
+        MultipartFile productImage=product.getProductImage();
+        String rootDirectory=request.getSession().getServletContext().getRealPath("/");
+        path= Paths.get(rootDirectory + "\\WEB-INF\\resources\\images\\productImages\\"+product.getProductId()+".png");
+
         productService.addProduct(product);
+        if(productImage!=null || !productImage.isEmpty()){
+            try{
+                  productImage.transferTo(new File(path.toString()));
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new RuntimeException("Product Image saving failed " ,e);
+
+            }
+        }
         return "redirect:/admin/productInventory";
     }
 
