@@ -13,6 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<c:url value="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
 </head>
 <!-- NAVBAR
 ================================================== -->

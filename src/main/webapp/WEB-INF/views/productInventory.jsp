@@ -29,7 +29,7 @@
             <c:forEach var="product" items="${products}">
                 <tbody>
                 <tr>
-                    <td><img src="#" alt="Image"></td>
+                    <td><img src="<spring:url value="/resources/images/productImages/${product.productId}.png"/>" alt="Image" style="width: 100%"></td>
                     <td>${product.productName}</td>
                     <td>${product.productCategory}</td>
                     <td>${product.productCondition}</td>

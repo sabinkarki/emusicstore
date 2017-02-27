@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,8 +33,6 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-
-    private Path path;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getIndexPage() {
@@ -60,14 +59,14 @@ public class ProductController {
         return "admin";
     }
 
-    @RequestMapping(value = "/admin/productInventory",method=RequestMethod.GET)
+    @RequestMapping(value = "/admin/productInventory", method = RequestMethod.GET)
     public String productInventory(Model model) {
         List<Product> products = productService.getProductLst();
         model.addAttribute("products", products);
         return "productInventory";
     }
 
-    @RequestMapping(value = "/admin/productInventory/addProduct", method =RequestMethod.GET)
+    @RequestMapping(value = "/admin/productInventory/addProduct", method = RequestMethod.GET)
     public String addProduct(@ModelAttribute("product") Product product, Model model) {
         List<ProductCategory> lstOfCategory = new ArrayList<ProductCategory>(Arrays.asList(ProductCategory.values()));
         List<ProductCondition> lstOfProductCondition = new ArrayList<ProductCondition>(Arrays.asList(ProductCondition.values()));
@@ -79,28 +78,41 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/admin/productInventory/addProduct", method = RequestMethod.POST)
-    public String addProductPost(@ModelAttribute("product") Product product , HttpServletRequest request) {
-
-        MultipartFile productImage=product.getProductImage();
-        String rootDirectory=request.getSession().getServletContext().getRealPath("/");
-        path= Paths.get(rootDirectory + "\\WEB-INF\\resources\\images\\productImages\\"+product.getProductId()+".png");
-
+    public String addProductPost(@ModelAttribute("product") Product product, HttpServletRequest request) {
+        MultipartFile productImage = product.getProductImage();
         productService.addProduct(product);
-        if(productImage!=null || !productImage.isEmpty()){
-            try{
-                  productImage.transferTo(new File(path.toString()));
-            }catch (Exception e){
+        Path path=getPath(request,product.getProductId());
+        if (productImage != null || !productImage.isEmpty()) {
+            try {
+                productImage.transferTo(new File(path.toString()));
+            } catch (Exception e) {
                 e.printStackTrace();
-                throw new RuntimeException("Product Image saving failed " ,e);
+                throw new RuntimeException("Product Image saving failed ", e);
 
             }
         }
         return "redirect:/admin/productInventory";
     }
 
-    @RequestMapping(value="/admin/productInventory/deleteProduct/{productId}")
-    public String deleteProduct(@PathVariable("productId") String productId){
+    @RequestMapping(value = "/admin/productInventory/deleteProduct/{productId}")
+    public String deleteProduct(@PathVariable("productId") String productId, HttpServletRequest request) {
+        Path path=getPath(request,productId);
+        if (Files.exists(path)) {
+            try {
+                Files.delete(path);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
         productService.deleteProduct(productId);
         return "redirect:/admin/productInventory";
+    }
+
+
+    private Path getPath(HttpServletRequest request,String productId){
+        Path path1;
+        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+        path1 = Paths.get(rootDirectory + "\\WEB-INF\\resources\\images\\productImages\\" + productId + ".png");
+        return path1;
     }
 }
