@@ -68,12 +68,7 @@ public class ProductController {
 
     @RequestMapping(value = "/admin/productInventory/addProduct", method = RequestMethod.GET)
     public String addProduct(@ModelAttribute("product") Product product, Model model) {
-        List<ProductCategory> lstOfCategory = new ArrayList<ProductCategory>(Arrays.asList(ProductCategory.values()));
-        List<ProductCondition> lstOfProductCondition = new ArrayList<ProductCondition>(Arrays.asList(ProductCondition.values()));
-        List<ProductStatus> lstOfProductStatus = new ArrayList<ProductStatus>(Arrays.asList(ProductStatus.values()));
-        model.addAttribute("lstOfProductCondition", lstOfProductCondition);
-        model.addAttribute(lstOfCategory);
-        model.addAttribute("lstOfProductStatus", lstOfProductStatus);
+        addListToShowInJsp(model);
         return "addProduct";
     }
 
@@ -81,7 +76,7 @@ public class ProductController {
     public String addProductPost(@ModelAttribute("product") Product product, HttpServletRequest request) {
         MultipartFile productImage = product.getProductImage();
         productService.addProduct(product);
-        Path path=getPath(request,product.getProductId());
+        Path path = getPath(request, product.getProductId());
         if (productImage != null || !productImage.isEmpty()) {
             try {
                 productImage.transferTo(new File(path.toString()));
@@ -96,7 +91,7 @@ public class ProductController {
 
     @RequestMapping(value = "/admin/productInventory/deleteProduct/{productId}")
     public String deleteProduct(@PathVariable("productId") String productId, HttpServletRequest request) {
-        Path path=getPath(request,productId);
+        Path path = getPath(request, productId);
         if (Files.exists(path)) {
             try {
                 Files.delete(path);
@@ -108,11 +103,47 @@ public class ProductController {
         return "redirect:/admin/productInventory";
     }
 
+    @RequestMapping(value = "/admin/productInventory/editProduct/{productId}", method = RequestMethod.GET)
+    public String editProduct(@PathVariable("productId") String productId, Model model) {
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", product);
+        addListToShowInJsp(model);
+        return "editProduct";
+    }
 
-    private Path getPath(HttpServletRequest request,String productId){
+    @RequestMapping(value = "/admin/productInventory/editProduct", method = RequestMethod.POST)
+    public String editProduct(@ModelAttribute("product") Product product, Model model, HttpServletRequest request) {
+
+        MultipartFile productImage = product.getProductImage();
+        Path path = getPath(request, product.getProductId());
+
+        if ((productImage != null || productImage.isEmpty()) && productImage.getSize() != 0) {
+            if (productImage.getSize() != 0) {
+                try {
+                    productImage.transferTo(new File(path.toString()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Product Image saving failed ", e);
+                }
+            }
+        }
+        productService.editProduct(product);
+        return "redirect:/admin/productInventory";
+    }
+
+    private Path getPath(HttpServletRequest request, String productId) {
         Path path1;
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
         path1 = Paths.get(rootDirectory + "\\WEB-INF\\resources\\images\\productImages\\" + productId + ".png");
         return path1;
+    }
+
+    private void addListToShowInJsp(Model model) {
+        List<ProductCategory> lstOfCategory = new ArrayList<ProductCategory>(Arrays.asList(ProductCategory.values()));
+        List<ProductCondition> lstOfProductCondition = new ArrayList<ProductCondition>(Arrays.asList(ProductCondition.values()));
+        List<ProductStatus> lstOfProductStatus = new ArrayList<ProductStatus>(Arrays.asList(ProductStatus.values()));
+        model.addAttribute("lstOfProductCondition", lstOfProductCondition);
+        model.addAttribute(lstOfCategory);
+        model.addAttribute("lstOfProductStatus", lstOfProductStatus);
     }
 }

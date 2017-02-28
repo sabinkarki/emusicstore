@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface ProductDao {
     public List<Product> getProductLst();
-    public Product getProductById(String productId) throws IOException;
+    public Product getProductById(String productId);
     public void addProduct(Product product);
     public void deleteProduct(String productId);
+    public void editProduct(Product product);
 }

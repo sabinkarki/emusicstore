@@ -6,6 +6,7 @@ import com.emusicstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(String productId) throws IOException {
+    public Product getProductById(String productId) {
         return productDao.getProductById(productId);
     }
 
@@ -39,5 +40,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(String productId) {
         productDao.deleteProduct(productId);
+    }
+
+    @Override
+    public void editProduct(Product product) {
+        productDao.editProduct(product);
     }
 }
