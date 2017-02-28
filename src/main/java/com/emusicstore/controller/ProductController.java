@@ -34,7 +34,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
     public String getIndexPage() {
         return "index";
     }
@@ -117,7 +117,7 @@ public class ProductController {
         MultipartFile productImage = product.getProductImage();
         Path path = getPath(request, product.getProductId());
 
-        if ((productImage != null || productImage.isEmpty()) && productImage.getSize() != 0) {
+        if ((productImage != null || ! productImage.isEmpty())) {
             if (productImage.getSize() != 0) {
                 try {
                     productImage.transferTo(new File(path.toString()));
