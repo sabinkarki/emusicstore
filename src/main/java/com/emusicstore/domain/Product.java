@@ -3,6 +3,7 @@ package com.emusicstore.domain;
 import com.emusicstore.enums.ProductCategory;
 import com.emusicstore.enums.ProductCondition;
 import com.emusicstore.enums.ProductStatus;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Product {
         this.productImage = productImage;
     }
 
+    @NotEmpty(message = "{0} cannot be empty")
     private String productName;
     private String productDescription;
     private double productPrice;
@@ -60,6 +62,7 @@ public class Product {
     }
 
     private String productManufacturer;
+
     private int unitInStock;
 
     public String getProductName() {

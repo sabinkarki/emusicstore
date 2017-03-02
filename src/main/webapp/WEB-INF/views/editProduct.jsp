@@ -24,6 +24,7 @@
                             <label for="name">Name</label>
                             <form:input path="productName" class="form-control" id="name"
                                         value="${product.productName}"/>
+                            <form:errors path="productName" cssStyle="color:red"/>
                         </div>
 
                         <div class="form-group">
@@ -68,6 +69,7 @@
                             <label for="productManufacturer">Manufacturer</label>
                             <form:input path="productManufacturer" class="form-control" id="productManufacturer"
                                         value="${product.productManufacturer}"/>
+                            <form:errors path="productManufacturer" cssStyle="color:red"/>
                         </div>
 
                         <div class="form-group">
