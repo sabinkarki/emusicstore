@@ -46,6 +46,7 @@
                                 <div class="input-group-addon">$</div>
                                 <form:input path="productPrice" class="form-control" id="price"
                                             value="${product.productPrice}"/>
+                                <form:errors path="productPrice" cssStyle="color:red"/>
                             </div>
                         </div>
 

@@ -7,6 +7,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Size;
+
 
 /**
  * Created by sabin on 2/16/2017.
@@ -29,6 +32,8 @@ public class Product {
     @NotEmpty(message = "{0} cannot be empty")
     private String productName;
     private String productDescription;
+
+    @DecimalMin(value = "0.0",message = "Product price cannot be less than zero")
     private double productPrice;
 
     @Transient

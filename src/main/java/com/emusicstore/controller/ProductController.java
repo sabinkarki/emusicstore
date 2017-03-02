@@ -98,7 +98,6 @@ public class ProductController {
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException("Product Image saving failed ", e);
-
             }
         }
         return "redirect:/admin/productInventory";
@@ -127,13 +126,15 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/admin/productInventory/editProduct", method = RequestMethod.POST)
-    public String editProduct(@Valid @ModelAttribute("product") Product product, Model model,
-                              BindingResult result, HttpServletRequest request) {
-
+    public String editProduct(@Valid @ModelAttribute("product") Product product,
+                              BindingResult result, HttpServletRequest request,Model model) {
+        ProductSpringValidator validator =new ProductSpringValidator();
+        validator.validate(product,result);
         if (result.hasErrors()) {
             addListToShowInJsp(model);
             return "editProduct";
         }
+
         MultipartFile productImage = product.getProductImage();
         Path path = getPath(request, product.getProductId());
 
