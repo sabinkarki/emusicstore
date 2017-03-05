@@ -7,6 +7,7 @@ import com.emusicstore.enums.ProductStatus;
 import com.emusicstore.service.ProductService;
 import com.emusicstore.springvalidator.ProductSpringValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,12 +41,6 @@ public class ProductController {
         binder.setValidator(new ProductSpringValidator());
       }*/
 
-    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String getIndexPage() {
-        return "index";
-    }
-
-
     @RequestMapping(value = "/allProducts", method = RequestMethod.GET)
     public String getAllProducts(Model model) {
         List<Product> products = productService.getProductLst();
@@ -60,6 +55,7 @@ public class ProductController {
         return "viewProduct";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/admin")
     public String adminPage() {
         return "admin";

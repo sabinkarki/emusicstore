@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <form:form action="${pageContext.request.contextPath}/admin/productInventory/editProduct"
+                    <form:form action="${pageContext.request.contextPath}/admin/productInventory/editProduct?${_csrf.parameterName}=${_csrf.token}"
                                modelAttribute="product" method="POST" enctype="multipart/form-data">
                         <form:hidden path="productId" value="${product.productId}"/>
 
@@ -73,12 +73,14 @@
                             <form:errors path="productManufacturer" cssStyle="color:red"/>
                         </div>
 
+                     <%--   <input type="hidden" name="${_csrf.parameterName}"
+                               value="${_csrf.token}" />--%>
+
                         <div class="form-group">
                             <label class="control-label" for="productImage">Upload Picture</label>
                             <form:input path="productImage" id="productImage" type="file" class="form:input-large"
                                         value="$"/>
                         </div>
-
                         <input type="Submit" value="Submit" class="btn btn-default"/>
                         <a class="btn btn-default" href="<c:url value="/admin/productInventory"/>">Cancel</a>
                     </form:form>

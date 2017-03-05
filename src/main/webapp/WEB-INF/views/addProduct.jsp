@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%@include file="/WEB-INF/views/template/header.jsp" %>
 <div class="container-wrapper">
     <div class="container">
@@ -17,7 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <form:form action="${pageContext.request.contextPath}/admin/productInventory/addProduct"
+                    <form:form action="${pageContext.request.contextPath}/admin/productInventory/addProduct?${_csrf.parameterName}=${_csrf.token}"
                                modelAttribute="product" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -72,6 +71,7 @@
                            <label class="control-label" for="productImage">Upload Picture</label>
                         <form:input path="productImage" id="productImage" type="file" class="form:input-large"/>
                         </div>
+
 
                         <input type="Submit" value="Submit" class="btn btn-default"/>
                         <a class="btn btn-default" href="<c:url value="/admin/productInventory"/>">Cancel</a>

@@ -22,11 +22,6 @@
 
     <tx:annotation-driven/>
 
-    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="10240000"/>
-    </bean>
-
-
     <!-- For externalization of validation message -->
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -38,4 +33,7 @@
         <property name="validationMessageSource" ref="messageSource" />
     </bean>
 
+    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10240000"/>
+    </bean>
 </beans>
