@@ -142,9 +142,25 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>4.2.1.RELEASE</version>
         </dependency>
-
         <!--End of Security-->
 
+        <!--For RestFul WebServices-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+           <!--End of RestFul WebServices-->
     </dependencies>
     <build>
         <plugins>

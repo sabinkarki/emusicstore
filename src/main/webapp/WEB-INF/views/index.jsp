@@ -13,7 +13,7 @@
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="item active">
-            <img class="first-slide home-image" src="<c:url value="/resources/images/bannerImages/6.jpg"/>" alt="First slide">
+            <img class="first-slide home-image" src="<c:url value="/resources/images/bannerImages/4.jpg"/>" alt="First slide">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>Example headline.</h1>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="item">
-            <img class="second-slide home-image" src="<c:url value="/resources/images/bannerImages/5.jpg"/>" alt="Second slide">
+            <img class="second-slide home-image" src="<c:url value="/resources/images/bannerImages/1.jpg"/>" alt="Second slide">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>Another example headline.</h1>
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="item">
-            <img class="third-slide" src="<c:url value="/resources/images/bannerImages/9.jpg"/>" alt="Third slide">
+            <img class="third-slide" src="<c:url value="/resources/images/bannerImages/2.jpg"/>" alt="Third slide">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>One more for good measure.</h1>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="item">
-            <img class="fourth-slide" src="<c:url value="/resources/images/bannerImages/10.jpg"/>" alt="Fourth slide">
+            <img class="fourth-slide" src="<c:url value="/resources/images/bannerImages/3.jpg"/>" alt="Fourth slide">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>One of the good move.</h1>
